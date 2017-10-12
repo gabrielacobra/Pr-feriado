@@ -19,8 +19,20 @@ namespace arquivocsv
             Console.WriteLine("Digite a sua idade: ");
             idade = Int16.Parse(Console.ReadLine());
 
-            StreamWriter arquivo = new StreamWriter("dados.csv",true);
+            FileInfo fi = new FileInfo("dados_cabecalho.csv");
+                     
+            StreamWriter arquivo;
+            
+            if(fi.Exists) {
+            arquivo = new StreamWriter("dados_cabecalho.csv",true);
+            arquivo.WriteLine(nome+";"+email+";"+idade+";"+DateTime.Now.ToShortDateString()); //se ele existe, não é necessário criar o cabecalho
+            }
+            else{
+            arquivo = new StreamWriter("dados_cabecalho.csv",true); //new StreamWriter gera um objeto.
+            arquivo.WriteLine("Nome;Email;Idade;Data de Cadastro"); //se o arquivo não existe, o comando é para criar o cabecalho
             arquivo.WriteLine(nome+";"+email+";"+idade+";"+DateTime.Now.ToShortDateString());
+            }
+                        
             arquivo.Close();
             
         }
